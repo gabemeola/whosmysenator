@@ -7,8 +7,19 @@
   "author": "Gabe M <gabemeola@gmail.com>",
   "license": "UNLICENSED",
   "private": false,
+  "scripts": {
+    "start": "node lib/index.js",
+    "start:dev": "nodemon lib/index.js -q",
+    "dev": "NODE_ENV=development concurrently -p '[{name}]' -n 'Server,Build ' -c 'bgBlue.bold,bgMagenta.bold' 'yarn start:dev' 'yarn build --watch'",
+    "build": "rollup -f cjs -i ./src/index.js -o lib/index.js"
+  },
   "dependencies": {
     "dotenv": "^5.0.1",
     "twit": "^2.2.9"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "nodemon": "^1.17.3",
+    "rollup": "^0.57.1"
   }
 }

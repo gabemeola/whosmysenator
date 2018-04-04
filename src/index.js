@@ -1,6 +1,7 @@
 require('dotenv').config()
 
-const Twit = require('twit');
+import Twit from 'twit';
+import findSenator from './findSenator';
 
 const {
   CONSUMER_KEY,
@@ -17,6 +18,40 @@ const api = new Twit({
   timeout_ms: 60 * 1000,
 })
 
-api.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
-  console.log(data)
-})
+// api.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
+//   console.log(data)
+// })
+
+// api.get('statuses/mentions_timeline')
+//   .then((res) => {
+//     console.log(JSON.stringify(res.data, null, 2));
+//   })
+
+api.stream('statuses/filter', { track: '@whosmysenator' })
+  .on('tweet', (tweet) => {
+    console.log(JSON.stringify(tweet, null, 2));
+    console.log()
+    console.log()
+
+    // Favorite Tweet
+    api.post('favorites/create', { id: tweet.id_str })
+      .then(({ data }) => {
+        console.log('favorite res:', JSON.stringify(data, null, 2));
+        console.log()
+        console.log()
+      })
+
+    // Reply to the tweeter
+    api.post('statuses/update', {
+      auto_populate_reply_metadata: true,
+      in_reply_to_status_id: tweet.id_str,
+      status: 'Booting up bot... mainframe.'
+    })
+    .then(({ data }) => {
+      console.log('reply res:', JSON.stringify(data, null, 2));
+      console.log()
+      console.log()
+    })
+  })
+
+console.log(findSenator('utah'))
