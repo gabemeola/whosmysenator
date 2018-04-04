@@ -1,0 +1,14 @@
+{
+  "name": "whosmysenator",
+  "version": "0.0.1",
+  "description": "Find your senator",
+  "main": "index.js",
+  "repository": "git@github.com:gabemeola/whosmysenator.git",
+  "author": "Gabe M <gabemeola@gmail.com>",
+  "license": "UNLICENSED",
+  "private": false,
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "twit": "^2.2.9"
+  }
+}
